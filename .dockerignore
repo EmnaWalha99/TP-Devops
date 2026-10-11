@@ -1,0 +1,20 @@
+node_modules
+
+# Logs
+npm-debug.log*
+*.log
+
+# Git
+.git
+.gitignore
+
+# Fichiers Docker / CI
+Dockerfile
+.dockerignore
+docker-compose*.yml
+Jenkinsfile
+
+.env
+
+README.md
+.vscode

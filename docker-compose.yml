@@ -1,0 +1,31 @@
+name: visit-counter
+
+services:
+  web:
+    build: .
+    image: counter-app:1.0
+    ports:
+      - "${HOST_PORT}:${APP_PORT}"
+    environment:
+      - PORT=${APP_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+    depends_on:
+      - db-service
+    networks:
+      - app-network
+
+  # La base Redis qui garde le compteur
+  db-service:
+    image: redis:alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  redis-data:

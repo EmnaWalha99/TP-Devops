@@ -1,0 +1,13 @@
+{
+  "name": "visit-counter",
+  "version": "1.0.0",
+  "description": "Visit counter avec Express et Redis",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "redis": "^4.6.13"
+  }
+}
