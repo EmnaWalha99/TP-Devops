@@ -44,7 +44,7 @@ docker images counter-app                    # voir la taille
 docker run --rm counter-app:1.0 whoami       # doit afficher "node" (pas root)
 ```
 
-Taille : environ 250 Mo.
+Taille : **251 Mo** (62 Mo compressée sur Docker Hub).
 
 **RUN vs CMD**
 
@@ -118,6 +118,7 @@ docker compose down -v                 # tout arrêter + supprimer le volume
 
 - `docker-compose.yml` : services `web` et `db-service`, réseau `app-network`, volume `redis-data`, variables d'environnement.
 - `.env` : `HOST_PORT=80`, `APP_PORT=3000`, `REDIS_HOST=db-service`. Dans le YAML : `"${HOST_PORT}:${APP_PORT}"`.
+- `.env.example` : copie du `.env` envoyée sur Git (le `.env` est dans le `.gitignore`). Après un clone : `copy .env.example .env`.
 
 Le compteur repart à 1 : Compose crée son propre volume (`visit-counter_redis-data`), différent de celui de la Partie 2.
 
@@ -195,28 +196,23 @@ Résultat attendu : `docker compose up -d --scale web=3` démarre les 3 instance
 
 ### Publier l'image sur Docker Hub
 
-Remplacer `<username>` par son identifiant Docker Hub.
-
 ```bash
-docker login                                                  # se connecter (si pas déjà fait)
-docker tag counter-app:1.0 <username>/counter-app:1.0         # renommer l'image avec son compte
-docker tag counter-app:1.0 <username>/counter-app:latest      # même image, tag "latest"
-docker push <username>/counter-app:1.0                        # envoyer sur Docker Hub
-docker push <username>/counter-app:latest
-docker images <username>/counter-app                          # vérifier les tags en local
+docker login                                                    # se connecter à Docker Hub
+docker tag counter-app:1.0 emnawalha99/counter-app:1.0          # nommer l'image avec son compte
+docker push emnawalha99/counter-app:1.0                         # envoyer sur Docker Hub
+docker images emnawalha99/counter-app                           # vérifier le tag en local
 ```
 
-Pourquoi taguer ? Docker Hub range les images par compte : le nom doit commencer par `<username>/`, sinon le push est refusé.
+Pourquoi taguer ? Docker Hub range les images par compte : le nom doit commencer par `emnawalha99/`, sinon le push est refusé.
 
 Vérifier que ça marche depuis Docker Hub :
 
 ```bash
-docker rmi <username>/counter-app:1.0                         # supprimer la copie locale
-docker pull <username>/counter-app:1.0                        # la retélécharger depuis Docker Hub
+docker rmi emnawalha99/counter-app:1.0                          # supprimer la copie locale
+docker pull emnawalha99/counter-app:1.0                         # la retélécharger depuis Docker Hub
 ```
 
-**Lien Docker Hub :** https://hub.docker.com/r/<username>/counter-app
-(vérifier que le dépôt est en **Public** dans Settings du dépôt)
+**Lien Docker Hub (public) :** https://hub.docker.com/r/emnawalha99/counter-app
 
 ### Nettoyage industriel (Deep Clean)
 
@@ -255,6 +251,14 @@ docker compose down --rmi all -v --remove-orphans
 - `--rmi all` : supprime les images du projet
 - `-v` : supprime les volumes du projet
 - `--remove-orphans` : supprime les conteneurs du projet qui ne sont plus dans le YAML
+
+Ce qui a été créé à la main en Partie 2 n'appartient pas à Compose, il faut le supprimer à part :
+
+```bash
+docker rm -f web-app db-service
+docker network rm app-network
+docker volume rm redis-data
+```
 
 Vérifier que tout est propre :
 
