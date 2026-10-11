@@ -18,3 +18,8 @@ Jenkinsfile
 
 README.md
 .vscode
+
+# Compte rendu
+*.docx
+*.pdf
+*.txt
