@@ -62,3 +62,17 @@ docker system prune -a                       # deep clean
 Image publique : https://hub.docker.com/r/emnawalha99/counter-app
 
 ⚠️ `docker system prune -a` supprime aussi les images des autres projets. Pour ne nettoyer que ce TP : `docker compose down --rmi all -v --remove-orphans`.
+
+## Partie C : Pipeline (GitHub Actions)
+
+`.github/workflows/ci.yml` se lance à chaque push sur `master` :
+
+1. **test** : `npm ci` + `npm test` (2 tests unitaires avec un faux Redis, `app.test.js`)
+2. **docker** (seulement si les tests passent) : build de l'image puis push sur Docker Hub (tags `run_number` et `latest`)
+
+```bash
+npm test                                     # lancer les tests en local
+git push                                     # déclenche le pipeline
+```
+
+Secret GitHub requis : `TP_DEVOPS` = token Docker Hub en **Read & Write**.
