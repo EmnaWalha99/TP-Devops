@@ -4,7 +4,8 @@
   "description": "Visit counter avec Express et Redis",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node --test"
   },
   "dependencies": {
     "express": "^4.19.2",

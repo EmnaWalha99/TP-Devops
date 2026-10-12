@@ -1,7 +1,6 @@
 FROM node:22-alpine
 
 ENV NODE_ENV=production
-# l'app sait sur quel port ecouter
 ENV PORT=3000
 
 WORKDIR /app
