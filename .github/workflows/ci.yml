@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE: emnawalha99/counter-app
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      DOCKERHUB_TOKEN: ${{ secrets.TP_DEVOPS }}
     steps:
       - uses: actions/checkout@v5
       - run: echo "$DOCKERHUB_TOKEN" | docker login -u emnawalha99 --password-stdin
