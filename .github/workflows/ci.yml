@@ -1,0 +1,31 @@
+name: CI/CD
+
+# Se déclenche automatiquement à chaque commit poussé sur la branche principale
+on:
+  push:
+    branches: [master]
+
+jobs:
+  # 1. Build et tests unitaires
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm test
+
+  # 2. Build de l'image et publication sur Docker Hub (seulement si les tests passent)
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: emnawalha99/counter-app
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+      - run: echo "$DOCKERHUB_TOKEN" | docker login -u emnawalha99 --password-stdin
+      - run: docker build -t $IMAGE:${{ github.run_number }} -t $IMAGE:latest .
+      - run: docker push --all-tags $IMAGE

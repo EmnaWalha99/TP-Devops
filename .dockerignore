@@ -12,7 +12,7 @@ npm-debug.log*
 Dockerfile
 .dockerignore
 docker-compose*.yml
-Jenkinsfile
+.github
 
 .env*
 
@@ -24,6 +24,5 @@ README.md
 *.pdf
 *.txt
 
-# Tests et Jenkins (inutiles dans l image)
+# Tests (inutiles dans l image)
 *.test.js
-jenkins
