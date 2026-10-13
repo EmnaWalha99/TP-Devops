@@ -4,6 +4,7 @@ const os = require('os');
 
 // L'app reçoit le client Redis en paramètre : on peut ainsi la tester avec un faux Redis
 function createApp(client) {
+  //express app
   const app = express();
 
   app.get('/', async (req, res) => {
